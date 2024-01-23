@@ -4,6 +4,7 @@
 #include <QQmlContext>
 
 #include "model.h"
+#include "wordstatsmodel.h"
 
 //#include <QtCharts>
 
@@ -22,6 +23,11 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     qmlRegisterType<Model>("Model", 1, 0, "Md");
+    qmlRegisterType<Model>("Model", 1, 0, "WordStatsModel");
+
+    WordStatsModel wsModel;
+
+    engine.rootContext()->setContextProperty("_wsModel", &wsModel);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

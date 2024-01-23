@@ -6,16 +6,24 @@ import QtQuick.Layouts 1.15
 
 import Model 1.0
 
-Window{
+ApplicationWindow {
     id: rootId
     width: 640
     height: 480
+
+    title: "2Gis histogram"
 
     visible: true
 
     Md {
         id: md
     }
+
+//    WordStatsModel {
+//        id: wsModel
+
+
+//    }
 
     Rectangle{
         id: lwBackId
@@ -27,25 +35,38 @@ Window{
 
         border.width: 1
 
-        property int tmpH: height / 5
+        property real tmpH: height / 5
 
         Column {
-           width: parent.width
-           height: parent.height
+            anchors.fill: parent
 
-           Repeater {
-               model: 5
+            Repeater {
+                anchors.fill: parent
+                model: 5
 
-               delegate: Seporator {
-                   property real step: md.maxWord() / 5
+                delegate: Seporator {
+                    property real step: 100 / 5.
 
-                   y: lwBackId.tmpH * model.index + 10
-//                   x: -5
-                   sizeSep: md.maxWord() - (step * model.index)
-//                   width: lwBackId.width
-//                   height: 1
-               }
-           }
+                    y: lwBackId.tmpH * model.index + 10
+                    x: -5
+                    sizeSep: 100 - (step * model.index)
+                    cstWidth: rootId.width / 5 * 4
+                    height: 1
+                }
+            }
+        }
+
+
+        ListView{
+            anchors.fill: parent
+
+            clip: true
+
+            model: _wsModel
+
+            delegate: Label {
+                text: model.word + " : " + model.count
+            }
         }
 
         ListView {
@@ -59,47 +80,98 @@ Window{
             anchors.margins: 10
             anchors.bottomMargin: 30
 
-//                        clip: true
+            //                        clip: true
 
             spacing: 10
             orientation: ListView.Horizontal
             interactive: false
 
-            model: md.cpair
+            model: _wsModel
 
             property real widthCol: rootId.width / 5 * 4 / md.size()
 
-            Component.onCompleted: {
-                console.log(rootId.width / md.size(), rootId.width, md.size())
-            }
-
             delegate: Rectangle {
-                width: ((rootId.width / 5 * 4) - (md.size() * 10 + 10)) / md.size()
-                y: lwBackId.height - (lwBackId.height / md.maxWord() * modelData.second)
-                height: lwBackId.height / md.maxWord() * modelData.second - 10
+                width: ((rootId.width / 5 * 4) - (_wsModel.rowCount() * 10 + 10)) / _wsModel.rowCount()
+                y: lwBackId.height - (lwBackId.height / 100 * model.count)
+                height: lwBackId.height / 100 * model.count - 10
 
                 visible: model.index < 15
 
                 border.width: 1
 
-                color: "red"
+                //                color: "red"
+                color: Qt.rgba(Math.random(), Math.random(), Math.random())
 
                 Text{
                     height: 30
                     width: parent.width
-                    text: modelData.second
+                    text: model.count + ""
+
+                    horizontalAlignment: Text.AlignHCenter
                 }
 
                 Text{
                     height: 30
                     width: parent.width
-                    text: modelData.first
+                    text: model.word
                     anchors.top: parent.bottom
 
                     horizontalAlignment: Text.AlignHCenter
                 }
             }
         }
+
+//        ListView {
+//            id: lw
+
+//            anchors.top: parent.top
+//            anchors.bottom: parent.bottom
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+
+//            anchors.margins: 10
+//            anchors.bottomMargin: 30
+
+//            //                        clip: true
+
+//            spacing: 10
+//            orientation: ListView.Horizontal
+//            interactive: false
+
+//            model: md.cpair
+
+//            property real widthCol: rootId.width / 5 * 4 / md.size()
+
+//            delegate: Rectangle {
+//                width: ((rootId.width / 5 * 4) - (md.size() * 10 + 10)) / md.size()
+//                y: lwBackId.height - (lwBackId.height / md.maxWord() * modelData.second)
+//                height: lwBackId.height / md.maxWord() * modelData.second - 10
+
+//                visible: model.index < 15
+
+//                border.width: 1
+
+////                color: "red"
+//                color: Qt.rgba(Math.random(), Math.random(), Math.random())
+
+//                Text{
+//                    height: 30
+//                    width: parent.width
+//                    text: modelData.second
+
+//                    horizontalAlignment: Text.AlignHCenter
+//                }
+
+//                Text{
+//                    height: 30
+//                    width: parent.width
+//                    text: modelData.first
+//                    anchors.top: parent.bottom
+
+//                    horizontalAlignment: Text.AlignHCenter
+//                }
+//            }
+//        }
     }
 
 

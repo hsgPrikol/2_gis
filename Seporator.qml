@@ -3,6 +3,7 @@ import QtQuick 2.15
 Rectangle{
 
     property string sizeSep: "empty"
+    property real cstWidth: 1
 
 //    width: parent.width
 
@@ -13,16 +14,17 @@ Rectangle{
     height: 1
     color: "black"
 
+    Rectangle{
+        width: parent.cstWidth + 5
+        height: 1
+        color: "black"
+    }
+
 //    z: 1
 
     Text{
         anchors.right: parent.left
         anchors.bottom: parent.top
         text: parent.sizeSep
-    }
-
-
-    Component.onCompleted: {
-        console.log(parent.width)
     }
 }

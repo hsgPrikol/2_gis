@@ -7,6 +7,8 @@
 
 #include "cpair.h"
 
+#include <algorithm>
+#include <memory>
 #include <map>
 
 class Model : public QObject
@@ -35,9 +37,13 @@ public:
 
 private:
 
+    const size_t SIZE = 15;
+
     QList<CPair*> cpair;
 
     int m_max;
+
+
 
     std::map<QString, int> m_data;
 

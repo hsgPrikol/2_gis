@@ -9,8 +9,11 @@ CONFIG += c++17
 
 SOURCES += \
         cpair.cpp \
+        filemanager.cpp \
         main.cpp \
-        model.cpp
+        model.cpp \
+        wordstats.cpp \
+        wordstatsmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -27,4 +30,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     cpair.h \
-    model.h
+    filemanager.h \
+    model.h \
+    wordstats.h \
+    wordstatsmodel.h

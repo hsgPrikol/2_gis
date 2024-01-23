@@ -10,26 +10,44 @@ Model::Model(QObject *parent)
     m_data.insert({"abs", 35});
     m_data.insert({"abq", 60});
     m_data.insert({"aweb", 10});
-//    m_data.insert({"abasd", 10});
-//    m_data.insert({"abzxfc", 10});
-//    m_data.insert({"axcb", 10});
-//    m_data.insert({"abbx", 10});
-//    m_data.insert({"abzx", 10});
-//    m_data.insert({"abxzc", 10});
-//    m_data.insert({"azvb", 10});
-//    m_data.insert({"bzx", 100});
-//    m_data.insert({"abzxd", 10});
+    m_data.insert({"abasd", 10});
+    m_data.insert({"abzxfc", 10});
+    m_data.insert({"axcb", 10});
+    m_data.insert({"abbx", 10});
+    m_data.insert({"abzx", 10});
+    m_data.insert({"abxzc", 10});
+    m_data.insert({"azvb", 10});
+    m_data.insert({"bzx", 100});
+    m_data.insert({"abzxd", 10});
 
-//    m_data.insert({"we", 15});
+    m_data.insert({"we", 15});
 
-    for (const auto& [name, count] : m_data) {
+//    QList<std::unique_ptr<CPair>> tmp;
 
-        if (m_max < count) {
-            m_max = count;
-        }
+//    for (const auto& [name, count] : m_data) {
 
-        cpair.push_back(new CPair(name, count));
-    }
+//        if (m_max < count) {
+//            m_max = count;
+//        }
+
+//        tmp.push_back(std::make_unique<CPair>(CPair(name, count)));
+//    }
+
+//    auto compare_count = [](const auto& lhs, const auto& rhs){
+//        return lhs->second > rhs->second;
+//    };
+
+//    if (m_data.size() >= SIZE) {
+//        std::partial_sort(cpair.begin(), cpair.begin() + SIZE, cpair.end(), compare_count);
+//    } else {
+//        std::sort(cpair.begin(), cpair.end(), compare_count);
+//    }
+
+
+
+
+
+
 }
 const QStringList &Model::name() const
 {
@@ -56,7 +74,7 @@ int Model::size() const
 
 const QVariantList &Model::count() const
 {
-//    return m_value.values();
+    //    return m_value.values();
     return m_count;
 }
 
