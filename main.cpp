@@ -4,11 +4,13 @@
 #include <QQmlContext>
 
 #include "model.h"
-#include "wordstatsmodel.h"
+//#include "wordstatsmodel.h"
+
+#include "wordstatsprocessor.h"
 
 //#include <QtCharts>
 
-
+#define MODEL_ORG "Model.org"
 
 
 int main(int argc, char *argv[])
@@ -22,10 +24,11 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    qmlRegisterType<Model>("Model", 1, 0, "Md");
-    qmlRegisterType<Model>("Model", 1, 0, "WordStatsModel");
+    qmlRegisterType<Model>(MODEL_ORG, 1, 0, "Md");
+    qmlRegisterType<Model>(MODEL_ORG, 1, 0, "WordStatsModel");
 
-    WordStatsModel wsModel;
+//    WordStatsModel wsModel;
+    WordStatsProcessor wsModel;
 
     engine.rootContext()->setContextProperty("_wsModel", &wsModel);
 

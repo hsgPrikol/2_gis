@@ -1,4 +1,4 @@
-QT += quick charts widgets
+QT += quick widgets
 #charts
 
 CONFIG += c++17
@@ -12,8 +12,13 @@ SOURCES += \
         filemanager.cpp \
         main.cpp \
         model.cpp \
+        progressbarprocess.cpp \
+        qmlviewmanager.cpp \
+        sortfiltermodel.cpp \
+        wordcounter.cpp \
         wordstats.cpp \
-        wordstatsmodel.cpp
+        wordstatsmodel.cpp \
+        wordstatsprocessor.cpp
 
 RESOURCES += qml.qrc
 
@@ -32,5 +37,10 @@ HEADERS += \
     cpair.h \
     filemanager.h \
     model.h \
+    progressbarprocess.h \
+    qmlviewmanager.h \
+    sortfiltermodel.h \
+    wordcounter.h \
     wordstats.h \
-    wordstatsmodel.h
+    wordstatsmodel.h \
+    wordstatsprocessor.h

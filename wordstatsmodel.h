@@ -2,6 +2,7 @@
 #define WORDSTATSMODEL_H
 
 #include <QAbstractListModel>
+#include <QDebug>
 
 #include <memory>
 
@@ -28,8 +29,18 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 
+    void addData(const QString& word, size_t count);
+
+    int maxCount() const;
+
+    void setMaxCount(int newMaxCount);
+
+    size_t size() const;
+
 private:
     QList<std::shared_ptr<WordStats>> m_words;
+
+    int m_maxCount;
 
 };
 

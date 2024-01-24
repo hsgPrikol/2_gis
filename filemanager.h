@@ -4,6 +4,13 @@
 #include <QObject>
 #include <QTextStream>
 #include <QFile>
+#include <QFileDialog>
+
+#include <QDebug>
+
+#include <fstream>
+#include <sstream>
+#include <thread>
 
 class FileManager : public QObject
 {
@@ -13,10 +20,10 @@ public:
 
     virtual ~FileManager();
 
-    virtual QStringList readFile(const QString& filepath);
+    virtual QStringList readFile(const QString &filepath);
 
 signals:
-    void progressUpdated(size_t);
+    void progressUpdated(int);
 };
 
 #endif // FILEMANAGER_H
