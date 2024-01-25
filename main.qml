@@ -16,13 +16,6 @@ ApplicationWindow {
 
     visible: true
 
-    Md {
-        id: md
-    }
-
-    property var __ws: _wsModel.getProxyModel()
-    //    property var __size: _wsModel.wordsSize
-
     FileDialog{
         id: fileDialogId
         title: "Выберете файл"
@@ -30,8 +23,6 @@ ApplicationWindow {
 
         onAccepted: {
             var url = fileDialogId.fileUrl;
-
-//            textIdLabel.text = url;
             _wsModel.processFile(url);
         }
 
@@ -76,6 +67,38 @@ ApplicationWindow {
             to: 100
             value: _wsModel.viewManager.processValue
         }
+//        Label{
+//            id: tttttt
+//            text: _wsModel.viewManager.size()
+//        }
+
+//        Button{
+//            onClicked: {
+//                tttttt.text = _wsModel.viewManager.size()
+//            }
+//        }
+
+//        Label{
+//            text: _wsModel.viewManager.maxRepeatedWord
+//        }
+
+
+
+    }
+
+    ListView{
+        width: 200
+        height: parent.height
+        anchors.right: parent.right
+
+        clip: true
+//        visible: false
+
+        model: _wsModel.viewManager.proxyModel
+
+        delegate: Label {
+            text: model.word + " : " + model.count
+        }
     }
 
     Rectangle{
@@ -103,40 +126,19 @@ ApplicationWindow {
 
                     y: lwBackId.tmpH * model.index + 10
                     x: -5
-                    sizeSep: _wsModel.viewManager.maxRepeatedWord - ((_wsModel.viewManager.maxRepeatedWord / 5) * model.index)
+                    sizeSep: Math.floor(_wsModel.viewManager.maxRepeatedWord - ((_wsModel.viewManager.maxRepeatedWord / 5) * model.index))
                     cstWidth: rootId.width / 5 * 4
                     height: 1
                 }
             }
         }
 
-        ListView{
-            width: 200
-            height: 200
-
-            clip: true
-
-            model: _wsModel.viewManager.proxyModel
-
-            delegate: Label {
-                text: model.word + " : " + model.count
-            }
-        }
-
         ListView {
             id: lw
 
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-
+            anchors.fill: parent
             anchors.margins: 10
             anchors.bottomMargin: 30
-
-            //            count: 15
-
-            //                        clip: true
 
             spacing: 10
             orientation: ListView.Horizontal
@@ -144,42 +146,132 @@ ApplicationWindow {
 
             model: _wsModel.viewManager.proxyModel
 
-            property real widthCol: rootId.width / 5 * 4 / _wsModel.viewManager.maxWordCount
-
-            Component.onCompleted: {
-                console.log()
-            }
-
             delegate: Rectangle {
-                width: ((rootId.width / 5 * 4) - (_wsModel.viewManager.maxWordCount * 10 + 10)) / _wsModel.viewManager.maxWordCount
-                y: lwBackId.height - (lwBackId.height / _wsModel.viewManager.maxRepeatedWord * model.count)
-                height: lwBackId.height / _wsModel.viewManager.maxRepeatedWord * model.count - 10
+                property real itemWidth: ((rootId.width / 5 * 4) - (15 * 10 + 10)) / 15
+                property real itemHeight: lwBackId.height / _wsModel.viewManager.maxRepeatedWord
 
-                //                visible: model.index < 15
+                width: itemWidth
+                height: itemHeight * model.count - 10
+                y: lwBackId.height - (itemHeight * model.count)
+
+                visible: model.index < 15
 
                 border.width: 1
+                color: "red"
 
-                //                color: "red"
-                color: Qt.rgba(Math.random(), Math.random(), Math.random())
-
-                Text{
+                Text {
                     height: 30
                     width: parent.width
                     text: model.count + ""
-
+                    anchors.top: parent.top
+                    anchors.topMargin: 15
                     horizontalAlignment: Text.AlignHCenter
                 }
 
-                Text{
+                Text {
                     height: 30
                     width: parent.width
                     text: model.word
                     anchors.top: parent.bottom
-
                     horizontalAlignment: Text.AlignHCenter
                 }
             }
         }
+
+
+//        ListView {
+//            id: lw
+
+//            anchors.top: parent.top
+//            anchors.bottom: parent.bottom
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+
+//            anchors.margins: 10
+//            anchors.bottomMargin: 30
+
+////            visible: false
+
+//            //            count: 15
+
+//            //                        clip: true
+
+//            spacing: 10
+//            orientation: ListView.Horizontal
+//            interactive: false
+
+//            model: _wsModel.viewManager.proxyModel
+////            model: _wsModel.viewManager.histogramModel
+
+////            property real widthCol: rootId.width / 5 * 4 / _wsModel.viewManager.maxWordCount
+
+//            Component.onCompleted: {
+//                console.log()
+//            }
+
+//            delegate: Rectangle {
+//                width: ((rootId.width / 5 * 4) - (/*_wsModel.viewManager.maxWordCount*/15 * 10 + 10)) / /*_wsModel.viewManager.maxWordCount*/15
+//                y: lwBackId.height - (lwBackId.height / _wsModel.viewManager.maxRepeatedWord * model.count)
+//                height: lwBackId.height / _wsModel.viewManager.maxRepeatedWord * model.count - 10
+
+//                visible: model.index < 15
+
+//                border.width: 1
+
+//                                color: "red"
+////                color: Qt.rgba(Math.random(), Math.random(), Math.random())
+
+//                Text{
+//                    height: 30
+//                    width: parent.width
+//                    text: model.count + ""
+//                    anchors.top: parent.top
+//                    anchors.topMargin: 15
+
+//                    horizontalAlignment: Text.AlignHCenter
+//                }
+
+//                Text{
+//                    height: 30
+//                    width: parent.width
+//                    text: model.word
+//                    anchors.top: parent.bottom
+
+//                    horizontalAlignment: Text.AlignHCenter
+//                }
+
+//                MouseArea {
+//                    anchors.fill: parent
+//                    hoverEnabled: true
+
+//                    onClicked: console.log("Clicked!")
+
+//                    ToolTip {
+//                        visible: parent.containsMouse ? true : false
+//                        width: implicitWidth
+//                        height: implicitHeight
+//                        clip: true
+
+//                        background: Rectangle{
+//                            anchors.fill: parent
+
+////                            color: "#2e0000"
+//                            color: "#343541"
+//                            opacity: 0.8
+
+//                            radius: 4
+//                        }
+//                        contentItem: Text{
+//                            anchors.centerIn: parent
+//                            text: "Значение " + model.count + "\n" + model.word + " поз. " + model.index
+//                            color: "#ffffff"
+//                        }
+
+//                    }
+//                }
+
+//            }
+//        }
 
         //        ListView {
         //            id: lw

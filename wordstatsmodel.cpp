@@ -53,14 +53,15 @@ QVariant WordStatsModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    auto word = m_words[index.row()];
+//    auto word = m_words[index.row()];
+    m_words[index.row()];
 
     switch (role) {
     case WordStatsRole::WORD: {
-        return word->word();
+        return m_words[index.row()]->word();
     }
     case WordStatsRole::COUNT: {
-        return QVariant::fromValue(word->count());
+        return QVariant::fromValue(m_words[index.row()]->count());
     }
     default:
         break;
@@ -77,16 +78,16 @@ bool WordStatsModel::setData(const QModelIndex &index, const QVariant &value, in
 
     bool isDo = false;
 
-    auto word = m_words[index.row()];
+    /*auto word = */m_words[index.row()];
 
     switch (role) {
     case WordStatsRole::WORD:{
-        word->setWord(value.toString());
+        m_words[index.row()]->setWord(value.toString());
         isDo = true;
         break;
     }
     case WordStatsRole::COUNT:{
-        word->setCount(value.toUInt());
+        m_words[index.row()]->setCount(value.toUInt());
         isDo = true;
         break;
     }
@@ -123,6 +124,23 @@ void WordStatsModel::addData(const QString& word, size_t count)
     //    emit dataChanged(index, index, QVector<int>() << WORD);
 }
 
+void WordStatsModel::addData(const std::shared_ptr<WordStats>& ws)
+{
+    const size_t idx = m_words.size() - 1;
+//    auto modelIndex = index(idx);
+    beginResetModel();
+//    beginInsertRows(QModelIndex(), idx, idx);
+    m_words.append(ws);
+//    endInsertRows();
+//    emit dataChanged(modelIndex, modelIndex, QVector<int>() << WordStatsRole::COUNT);
+    endResetModel();
+}
+
+void WordStatsModel::removeLastData()
+{
+    m_words.pop_back();
+}
+
 int WordStatsModel::maxCount() const
 {
     return m_maxCount;
@@ -133,8 +151,24 @@ void WordStatsModel::setMaxCount(int newMaxCount)
     m_maxCount = newMaxCount;
 }
 
+void WordStatsModel::update(int idx)
+{
+    auto modelIndex = index(idx);
+    emit dataChanged(modelIndex, modelIndex, QVector<int>() << WordStatsRole::COUNT);
+//    beginResetModel();
+//    endResetModel();
+
+//    const size_t index = m_words.size();
+//    beginInsertRows(QModelIndex(), index, index);
+//    endInsertRows();
+}
+
 size_t WordStatsModel::size() const
 {
     return m_words.size();
 }
 
+int WordStatsModel::indexOf(const std::shared_ptr<WordStats>& ws)
+{
+    return m_words.indexOf(ws);
+}

@@ -3,6 +3,11 @@
 
 #include <QObject>
 #include <QDebug>
+#include <iostream>
+#include <algorithm>
+#include <exception>
+#include <unordered_map>
+
 
 #include <thread>
 

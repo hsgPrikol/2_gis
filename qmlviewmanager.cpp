@@ -79,9 +79,59 @@ void QmlViewManager::add(const QString& word, int count)
 
     max(count);
 
-    ++m_maxWordCount;
+    setMaxWordCount(++m_maxWordCount);
 
     m_histogramModel->addData(word, count);
+}
+
+void QmlViewManager::add(const std::shared_ptr<WordStats>& ws)
+{
+    auto max = [this](int count){
+        if (count > m_maxRepeatedWord) {
+            setMaxRepeatedWord(count);
+        }
+    };
+
+    max(ws->count());
+
+    setMaxWordCount(++m_maxWordCount);
+
+    m_histogramModel->addData(ws);
+
+}
+
+void QmlViewManager::pop_back()
+{
+    m_histogramModel->removeLastData();
+}
+
+void QmlViewManager::sort()
+{
+    std::sort(m_histogramModel->begin(), m_histogramModel->end(), [](const auto& lhs, const auto& rhs){
+        return lhs->count() > rhs->count();
+    });
+}
+
+int QmlViewManager::size() const
+{
+    return m_histogramModel->size();
+}
+
+bool QmlViewManager::find(const std::shared_ptr<WordStats>& elem)
+{
+//    return std::lower_bound(m_histogramModel->begin(), m_histogramModel->end(), elem) == m_histogramModel->end();
+
+    return std::find(m_histogramModel->begin(), m_histogramModel->end(), elem) == m_histogramModel->end();
+}
+
+void QmlViewManager::update(int index)
+{
+    m_histogramModel->update(index);
+}
+
+int QmlViewManager::indexOf(const std::shared_ptr<WordStats> &ws)
+{
+    return m_histogramModel->indexOf(ws);
 }
 
 void QmlViewManager::progress(int value)

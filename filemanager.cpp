@@ -40,31 +40,44 @@ QStringList FileManager::readFile(const QString& filepath)
 
 
     auto qt_ver = [](const QString& input) {
-        QStringList tokens = input.split(" ", Qt::SkipEmptyParts);
+
+        QString tmp;
+
+        for (const QChar &ch : input) {
+            if (ch.isLetter()) {
+                tmp.append(ch.toLower());
+            } else {
+                tmp += " ";
+            }
+        }
+
+        QStringList tokens = tmp.split(" ", Qt::SkipEmptyParts);
+
+        //        qDebug() << tokens;
+
         return tokens.join(" ");
     };
 
 
     auto qt_norm = [](QString filepath){
         if (filepath.isEmpty()) {
-            qDebug() << "Пустая строка!";
+            //            qDebug() << "Пустая строка!";
             return QString();
         }
 
         QString normalizedPath = filepath.mid(7);
 
-        QFileInfo fileInfo(filepath);
+        QFileInfo fileInfo(normalizedPath);
         if (!fileInfo.exists()) {
-            qDebug() << "Некорректный путь или файл не существует!";
+            //            qDebug() << "Некорректный путь или файл не существует!";
             return QString();
         }
 
         return normalizedPath;
     };
 
-    qDebug() << filepath;
-
     QFile file(filepath.mid(7));
+
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "Не удалось открыть файл!";
         return QStringList();
@@ -80,20 +93,37 @@ QStringList FileManager::readFile(const QString& filepath)
     while (!in.atEnd()) {
         QString line = in.readLine();
 
+        std::cout << "read file " << std::this_thread::get_id() << std::endl;;
+
         bytes += line.toUtf8().size();
 
         int percentage = static_cast<int>((static_cast<float>(bytes) / size) * 100);
 
         emit progressUpdated(percentage);
 
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        //нужна структура данных std::map<string, std::pair<int, int>> где string это имя, первый int это значение, а второй инт, место где он лежит в списке.
+        //сделать автообновляемым.На сортировку забить пока.
+
+        //Может быть сейчас в машине уже сделаю это.
+
+        //        std::this_thread::sleep_for(std::chrono::seconds(1));
 
         QString normalizedLine = qt_ver(line.toStdString().c_str());
 
-        lines.push_back(normalizedLine);
+        QStringList tm = normalizedLine.split(" ");
+
+        for (const QString& elem : tm) {
+
+            if (elem.isEmpty() || elem == " ") {
+                continue;
+            }
+
+            lines.push_back(elem);
+        }
     }
 
     emit progressUpdated(100);
+
     file.close();
     return lines;
 

@@ -31,6 +31,20 @@ public:
 
     Q_INVOKABLE void add(const QString &word, int count);
 
+    Q_INVOKABLE void add(const std::shared_ptr<WordStats>& ws);
+
+    void pop_back();
+
+    void sort();
+
+    Q_INVOKABLE int size() const;
+
+    bool find(const std::shared_ptr<WordStats>& elem);
+
+    void update(int index);
+
+    int indexOf(const std::shared_ptr<WordStats>& ws);
+
 public slots:
     void progress(int value);
 

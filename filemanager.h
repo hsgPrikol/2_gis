@@ -5,6 +5,7 @@
 #include <QTextStream>
 #include <QFile>
 #include <QFileDialog>
+#include <iostream>
 
 #include <QDebug>
 
@@ -22,8 +23,12 @@ public:
 
     virtual QStringList readFile(const QString &filepath);
 
+
+
 signals:
     void progressUpdated(int);
+
+
 };
 
 #endif // FILEMANAGER_H

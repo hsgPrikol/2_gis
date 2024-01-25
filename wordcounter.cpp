@@ -21,7 +21,7 @@ std::map<QString, size_t> WordCounter::wordCounter(const QStringList& stringList
         QString clean = test(line);
         QStringList words = line.split(" ");
 
-        qDebug() << words;
+//        qDebug() << words;
 
         for (const QString& word : words) {
             QString lowerCaseWord = word.toLower();

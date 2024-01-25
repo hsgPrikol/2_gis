@@ -2,9 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QApplication>
 #include <QQmlContext>
-
-#include "model.h"
-//#include "wordstatsmodel.h"
+#include <QIcon>
 
 #include "wordstatsprocessor.h"
 
@@ -20,14 +18,13 @@ int main(int argc, char *argv[])
 #endif
     QApplication app(argc, argv);
 
-//    QChartView *chart = new QChartView;
+    app.setWindowIcon(QIcon("images/logo.png"));
 
     QQmlApplicationEngine engine;
 
-    qmlRegisterType<Model>(MODEL_ORG, 1, 0, "Md");
-    qmlRegisterType<Model>(MODEL_ORG, 1, 0, "WordStatsModel");
+    qmlRegisterUncreatableType<WordStatsProcessor>(MODEL_ORG, 1, 0, "WordStatsModel", "");
+    qmlRegisterUncreatableType<QmlViewManager>(MODEL_ORG, 1, 0, "ViewManager", "");
 
-//    WordStatsModel wsModel;
     WordStatsProcessor wsModel;
 
     engine.rootContext()->setContextProperty("_wsModel", &wsModel);
