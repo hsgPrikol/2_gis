@@ -1,5 +1,7 @@
 import QtQuick 2.15
 
+import "Colors.js" as Colors
+
 Rectangle{
 
     property string sizeSep: "empty"
@@ -17,7 +19,7 @@ Rectangle{
     Rectangle{
         width: parent.cstWidth + 5
         height: 1
-        color: "black"
+        color: "#292929"
     }
 
 //    z: 1
@@ -26,5 +28,6 @@ Rectangle{
         anchors.right: parent.left
         anchors.bottom: parent.top
         text: parent.sizeSep
+        color: Colors.symbols()
     }
 }

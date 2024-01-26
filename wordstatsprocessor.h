@@ -31,6 +31,10 @@ signals:
     void dataChanged(int index);
 
     void newWordProcessed(const QString& word);
+
+    void progressUpdate(int value);
+
+    void update();
 };
 
 #endif // WORDSTATSPROCESSOR_H

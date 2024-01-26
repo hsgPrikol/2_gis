@@ -1,20 +1,134 @@
 import QtQuick 2.15
-//import QtCharts 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.15
+import QtGraphicalEffects 1.15
 
 import Model.org 1.0
 
+import "Colors.js" as Colors
+
 ApplicationWindow {
     id: rootId
-    width: 640
-    height: 480
+    width: 1280
+    height: 720
 
     title: "2Гистограмм"
 
     visible: true
+
+    LinearGradient{
+        anchors.fill: parent
+        start: Qt.point(0,0)
+        end: Qt.point(width, height)
+        gradient: Gradient {
+
+            GradientStop {
+                position: 0.0
+                color: "#1c2e2c"
+            }
+            GradientStop {
+                position: 0.1
+                color: "#171617"
+            }
+            GradientStop {
+                position: 0.5
+                color: "#171717"
+            }
+            GradientStop {
+                position: 1.0
+                color: "#1c2e2c"
+            }
+        }
+    }
+
+
+
+    Row {
+        id: iconTextId
+        height: 140
+        width: 300
+        z: 1
+        anchors.left: parent.left
+        anchors.margins: 30
+
+        spacing: 15
+
+        Image {
+            id: imgId
+            anchors.bottom: parent.bottom
+            //            height: parent
+            antialiasing: true
+            width: 150; height: 100
+            source: "qrc:/images/images/logo_2.png"
+        }
+
+//        RadialGradient {
+//            width: 50
+//            height: width
+//            gradient: Gradient {
+//                GradientStop {
+//                    position: 0.0
+//                    color: "#0c744fff"
+//                }
+//                GradientStop {
+//                    position: 0.5
+//                    color: "#000e09ff"
+//                }
+//                GradientStop {
+//                    position: 1.0
+//                    color: "#000000f0"
+//                }
+//            }
+
+//            gradient: Gradient {
+//                GradientStop {
+//                    position: 0.0
+//                    color: Qt.rgba(12/255, 116/255, 79/255, 1.0)
+//                }
+//                GradientStop {
+//                    position: 0.3
+//                    color: "#ffffffff"
+//                }
+//                GradientStop {
+//                    position: 0.5
+//                    color: Qt.rgba(0/255, 14/255, 9/255, 0.0)
+//                }
+//                GradientStop {
+//                    position: 1.0
+//                    color: Qt.rgba(0/255, 0/255, 0/255, 0.0)
+//                }
+//            }
+//        }
+
+
+
+        Rectangle {
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
+            antialiasing: true
+            width: 5
+            height: 80
+            radius: 2
+
+            color: "#616161"
+        }
+
+        Text {
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 30
+
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+
+            text: "Гистограмма"
+            color: "#616161"
+            font.pixelSize: 22
+
+
+        }
+    }
 
     FileDialog{
         id: fileDialogId
@@ -22,9 +136,13 @@ ApplicationWindow {
         nameFilters: ["Text files (*.txt)", "HTML files (*.html *.htm)"]
 
         onAccepted: {
-            var url = fileDialogId.fileUrl;
-//            _wsModel.processFile(url);
-//            _wsModel.startProcessing("/home/ibabushkin/Documents/Project_qt/ttt.txt")
+            var chosenFile = fileDialogId.fileUrl.toString().replace("file://", "");
+            console.log(chosenFile);
+            if (chosenFile !== "") {
+                _wsModel.startProcessing(chosenFile);
+            } else {
+                console.log("mistake");
+            }
         }
 
         onRejected: {
@@ -32,87 +150,275 @@ ApplicationWindow {
         }
     }
 
-    Row{
-        spacing: 5
+    FileDialog {
+        id:  saveFileDialogId
+        title: "Save File"
+        selectExisting: false
+        selectFolder: false
+        nameFilters: ["CSV Files (*.csv)"]
 
-        Button{
-            text: "add"
-
-            onClicked: {
-//                _wsModel.addObject();
-                _wsModel.startProcessing("/home/ibabushkin/Documents/Project_qt/tt.txt")
+        onAccepted: {
+            var chosenFile = saveFileDialogId.fileUrl.toString().replace("file:///", "");
+            if (chosenFile !== "") {
+                console.log("Selected file path:", chosenFile);
+            } else {
+                console.log("File selection canceled.");
             }
         }
-
-        Button{
-            text: "filedialog"
-
-            onClicked: {
-                _wsModel.progressProcess.value += 50;
-            }
+        onRejected: {
+            console.log("File selection canceled.");
         }
-
-        Button{
-            text: "OpenFile"
-
-            onClicked: {
-                fileDialogId.open()
-            }
-        }
-        Label {
-            id: textIdLabel
-            text: _wsModel.viewManager.processValue + ""
-        }
-        ProgressBar{
-            from: 0
-            height: 50
-            to: 100
-            value: _wsModel.viewManager.processValue
-        }
-//        Label{
-//            id: tttttt
-//            text: _wsModel.viewManager.size()
-//        }
-
-//        Button{
-//            onClicked: {
-//                tttttt.text = _wsModel.viewManager.size()
-//            }
-//        }
-
-//        Label{
-//            text: _wsModel.viewManager.maxRepeatedWord
-//        }
-
-
-
     }
 
-    ListView{
-        width: 100
-        height: parent.height
+    Row{
+        id: rowInfoId
+        height: 70
+
+        anchors.top: iconTextId.bottom
         anchors.right: parent.right
+        //        anchors.bottom: parent.bottom
+        anchors.margins: 40
+        width: parent.width / 5 * 3.5
+        spacing: 10
 
-        clip: true
-//        visible: false
+        Rectangle {
+            id: lableFileInfoId
+            color: "#252525"
+            width: parent.width / 2 - 10
+            height: 70
 
-        model: _wsModel.viewManager.proxyModel
+            border.width: 1
+            border.color: Colors.border()
 
-        delegate: Label {
-            text: model.word + " : " + model.count
+            radius: 5
+
+            Label {
+                anchors.top: parent.right
+                anchors.left: parent.left
+                anchors.margins: 5
+
+                background: Rectangle {
+                    color: "transparent"
+
+                    Text {
+                        text: "Название файла"
+                        //                        anchors.centerIn: parent
+                        color: "#17a81a"
+                    }
+                }
+            }
+
+            Label {
+                anchors.top: parent.right
+                anchors.left: parent.left
+                anchors.margins: 5
+
+                background: Rectangle {
+                    color: "transparent"
+
+                    Text {
+                        text: ""
+                        //                        anchors.centerIn: parent
+                        //                        color: "#"
+                    }
+                }
+            }
+
+        }
+
+        Rectangle {
+            //            id: progressBarId
+            color: "#252525"
+            width: parent.width / 2
+            height: 70
+
+            border.width: 1
+            border.color: Colors.border()
+            radius: 5
+
+            Label {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: progressBarId.top
+                anchors.bottomMargin: 5
+                text: _wsModel.viewManager.processValue + "%"
+                background: Rectangle{
+                    color: "transparent"
+
+                    //                    border.width: 1
+                    //                    border.color: "red"
+                }
+
+                color: "white"
+                font.pixelSize: 22
+
+            }
+
+            ProgressBar{
+                id: progressBarId
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 15
+                from: 0
+                //                height: 50
+                to: 100
+                value: _wsModel.viewManager.processValue
+
+                background: Rectangle {
+                    implicitWidth: 200
+                    implicitHeight: 6
+                    color: "#e6e6e6"
+                    radius: 3
+                }
+
+                contentItem: Item {
+                    implicitWidth: 200
+                    implicitHeight: 4
+
+                    Rectangle {
+                        width: progressBarId.visualPosition * parent.width
+                        height: parent.height
+                        radius: 2
+                        color: "#17a81a"
+                    }
+                }
+            }
+
         }
     }
 
     Rectangle{
-        id: lwBackId
-        z: 1
-        anchors.centerIn: parent
+        id: controllerId
 
-        width: parent.width / 5 * 4
-        height: parent.height / 5 * 4 - 30
+        anchors.top: rowInfoId.top
+        anchors.right: lwBackId.left
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.margins: 40
+        anchors.topMargin: 0
+        anchors.rightMargin: 50
 
         border.width: 1
+        border.color: Colors.border()
+        radius: 5
 
+        color: "transparent"
+
+        Column {
+            anchors.fill: parent
+            anchors.margins: 10
+            spacing: 10
+
+            Row {
+                spacing: 10
+                height: 50
+                width: parent.width
+                CustomButton {
+                    text: "Open"
+
+                    onClicked: {
+                        fileDialogId.open();
+                    }
+                }
+                CustomButton{
+                    colorBackgraound: "#252525"
+                }
+                CustomButton {
+                    width: parent.width / 3
+                    text: "Save"
+
+                    onClicked: {
+                        saveFileDialogId.open()
+                    }
+                }
+            }
+
+            Row {
+                spacing: 10
+                height: 50
+                width: parent.width
+                CustomButton {
+                    text: "A-Z"
+
+                    onClicked: {
+                        _wsModel.startProcessing("/home/ibabushkin/Documents/Project_qt/t.txt")
+                    }
+                }
+                CustomButton {
+                    text: ""
+                    colorBackgraound: "#252525"
+
+                }
+                CustomButton {
+                    width: parent.width / 3
+                    text: "Z-A"
+
+                }
+            }
+
+            Row {
+                spacing: 10
+                height: 50
+                width: parent.width
+                CustomButton {
+                    text: "1-9"
+
+                    onClicked: {
+                    }
+                }
+                CustomButton {
+                    colorBackgraound: "#252525"
+                }
+                CustomButton {
+                    width: parent.width / 3
+                    text: "9-1"
+
+
+                }
+            }
+            CustomButton {
+                text: "Clear"
+
+                width: parent.width
+                height: 50
+
+                onClicked: {
+                    _wsModel.startProcessing("/home/ibabushkin/Documents/Project_qt/t.txt")
+                }
+            }
+            CustomButton {
+                text: "Pause"
+
+                width: parent.width
+                height: 50
+                colorBackgraound: "#17a81a"
+
+                onClicked: {
+                    _wsModel.startProcessing("/home/ibabushkin/Documents/Project_qt/t.txt")
+                }
+            }
+        }
+    }
+
+
+    Rectangle{
+        id: lwBackId
+        z: 1
+        //        anchors.centerIn: parent
+        anchors.top: rowInfoId.bottom
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: 40
+        anchors.topMargin: 10
+
+        width: parent.width / 5 * 3.5
+        //        height: parent.height / 5 * 4 - 30
+
+        color: "#191919"
+
+        radius: 5
+
+        border.width: 1
+        border.color: Colors.border()
         property real tmpH: height / 5
 
         Column {
@@ -121,6 +427,7 @@ ApplicationWindow {
             Repeater {
                 id: axisXId
                 anchors.fill: parent
+//                model: 5
                 model: 5
 
                 delegate: Seporator {
@@ -129,8 +436,9 @@ ApplicationWindow {
                     y: lwBackId.tmpH * model.index + 10
                     x: -5
                     sizeSep: Math.floor(_wsModel.viewManager.maxRepeatedWord - ((_wsModel.viewManager.maxRepeatedWord / 5) * model.index))
-                    cstWidth: rootId.width / 5 * 4
+                    cstWidth: rootId.width / 5 * 3.5
                     height: 1
+                    color: Colors.symbols()
                 }
             }
         }
@@ -149,7 +457,7 @@ ApplicationWindow {
             model: _wsModel.viewManager.proxyModel
 
             delegate: Rectangle {
-                property real itemWidth: ((rootId.width / 5 * 4) - (15 * 10 + 10)) / 15
+                property real itemWidth: ((lwBackId.width) - (15 * 10 + 10)) / 15
                 property real itemHeight: lwBackId.height / _wsModel.viewManager.maxRepeatedWord
 
                 width: itemWidth
@@ -159,8 +467,9 @@ ApplicationWindow {
                 visible: model.index < 15
 
                 border.width: 1
-//                color: "red"
-                color: Qt.rgba(Math.random(), Math.random(), Math.random())
+                //                color: "red"
+                //                color: Qt.rgba(Math.random(), Math.random(), Math.random())
+                color: Colors.gis_blue()
 
                 Text {
                     height: 30
@@ -175,189 +484,42 @@ ApplicationWindow {
                     height: 30
                     width: parent.width
                     text: model.word
+
+                    color: Colors.symbols()
                     anchors.top: parent.bottom
                     horizontalAlignment: Text.AlignHCenter
                 }
+
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+
+                    onClicked: console.log("Clicked!")
+
+                    ToolTip {
+                        visible: parent.containsMouse ? true : false
+                        width: implicitWidth
+                        height: implicitHeight
+                        clip: true
+
+                        background: Rectangle{
+                            anchors.fill: parent
+
+                            //                            color: "#2e0000"
+                            color: "#343541"
+                            opacity: 0.8
+
+                            radius: 4
+                        }
+                        contentItem: Text{
+                            anchors.centerIn: parent
+                            text: "Значение " + model.count + "\n" + model.word + " поз. " + model.index
+                            color: "#ffffff"
+                        }
+
+                    }
+                }
             }
         }
-
-
-//        ListView {
-//            id: lw
-
-//            anchors.top: parent.top
-//            anchors.bottom: parent.bottom
-//            anchors.left: parent.left
-//            anchors.right: parent.right
-
-//            anchors.margins: 10
-//            anchors.bottomMargin: 30
-
-////            visible: false
-
-//            //            count: 15
-
-//            //                        clip: true
-
-//            spacing: 10
-//            orientation: ListView.Horizontal
-//            interactive: false
-
-//            model: _wsModel.viewManager.proxyModel
-////            model: _wsModel.viewManager.histogramModel
-
-////            property real widthCol: rootId.width / 5 * 4 / _wsModel.viewManager.maxWordCount
-
-//            Component.onCompleted: {
-//                console.log()
-//            }
-
-//            delegate: Rectangle {
-//                width: ((rootId.width / 5 * 4) - (/*_wsModel.viewManager.maxWordCount*/15 * 10 + 10)) / /*_wsModel.viewManager.maxWordCount*/15
-//                y: lwBackId.height - (lwBackId.height / _wsModel.viewManager.maxRepeatedWord * model.count)
-//                height: lwBackId.height / _wsModel.viewManager.maxRepeatedWord * model.count - 10
-
-//                visible: model.index < 15
-
-//                border.width: 1
-
-//                                color: "red"
-////                color: Qt.rgba(Math.random(), Math.random(), Math.random())
-
-//                Text{
-//                    height: 30
-//                    width: parent.width
-//                    text: model.count + ""
-//                    anchors.top: parent.top
-//                    anchors.topMargin: 15
-
-//                    horizontalAlignment: Text.AlignHCenter
-//                }
-
-//                Text{
-//                    height: 30
-//                    width: parent.width
-//                    text: model.word
-//                    anchors.top: parent.bottom
-
-//                    horizontalAlignment: Text.AlignHCenter
-//                }
-
-//                MouseArea {
-//                    anchors.fill: parent
-//                    hoverEnabled: true
-
-//                    onClicked: console.log("Clicked!")
-
-//                    ToolTip {
-//                        visible: parent.containsMouse ? true : false
-//                        width: implicitWidth
-//                        height: implicitHeight
-//                        clip: true
-
-//                        background: Rectangle{
-//                            anchors.fill: parent
-
-////                            color: "#2e0000"
-//                            color: "#343541"
-//                            opacity: 0.8
-
-//                            radius: 4
-//                        }
-//                        contentItem: Text{
-//                            anchors.centerIn: parent
-//                            text: "Значение " + model.count + "\n" + model.word + " поз. " + model.index
-//                            color: "#ffffff"
-//                        }
-
-//                    }
-//                }
-
-//            }
-//        }
-
-        //        ListView {
-        //            id: lw
-
-        //            anchors.top: parent.top
-        //            anchors.bottom: parent.bottom
-        //            anchors.left: parent.left
-        //            anchors.right: parent.right
-
-        //            anchors.margins: 10
-        //            anchors.bottomMargin: 30
-
-        //            //                        clip: true
-
-        //            spacing: 10
-        //            orientation: ListView.Horizontal
-        //            interactive: false
-
-        //            model: md.cpair
-
-        //            property real widthCol: rootId.width / 5 * 4 / md.size()
-
-        //            delegate: Rectangle {
-        //                width: ((rootId.width / 5 * 4) - (md.size() * 10 + 10)) / md.size()
-        //                y: lwBackId.height - (lwBackId.height / md.maxWord() * modelData.second)
-        //                height: lwBackId.height / md.maxWord() * modelData.second - 10
-
-        //                visible: model.index < 15
-
-        //                border.width: 1
-
-        ////                color: "red"
-        //                color: Qt.rgba(Math.random(), Math.random(), Math.random())
-
-        //                Text{
-        //                    height: 30
-        //                    width: parent.width
-        //                    text: modelData.second
-
-        //                    horizontalAlignment: Text.AlignHCenter
-        //                }
-
-        //                Text{
-        //                    height: 30
-        //                    width: parent.width
-        //                    text: modelData.first
-        //                    anchors.top: parent.bottom
-
-        //                    horizontalAlignment: Text.AlignHCenter
-        //                }
-        //            }
-        //        }
     }
-
-
-    //    ChartView {
-    //        title: "Гистограмма"
-
-    //        anchors.fill: parent
-    //        antialiasing: true
-    //        legend.alignment: Qt.AlignBottom
-
-    //        BarSeries {
-    //            id:barseries
-
-    //            axisX: BarCategoryAxis{
-    ////                categories:["2007", "2008"]
-    //                categories: md.name
-
-    //                Component.onCompleted: {
-    //                    console.log(md.cpair["first"], md.cpair["second"])
-    //                }
-    //            }
-
-    //            BarSet {
-    //                label: "Word";
-    ////                values:[2,2]
-    //                values: md.count
-    //            }
-    //            //            BarSet {label:"Susan";values:[2,1,2,4,1,7]}
-    //            //            BarSet {label:"James";values:[2,5,8,13,5,8]}
-    //        }
-    //    }
-
-
 }

@@ -22,6 +22,8 @@ public:
 public slots:
     void startProcessing(const QString& filepath);
 
+    void progressUpdate(int value);
+
     void wordAdded(const QString& word);
 
 private: //methods

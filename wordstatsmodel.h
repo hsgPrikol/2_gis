@@ -43,6 +43,8 @@ public:
 
     void update(int idx);
 
+    void update();
+
     size_t size() const;
 
     QList<std::shared_ptr<WordStats>>::iterator begin() {

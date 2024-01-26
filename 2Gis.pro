@@ -17,7 +17,8 @@ SOURCES += \
         wordcounter.cpp \
         wordstats.cpp \
         wordstatsmodel.cpp \
-        wordstatsprocessor.cpp
+        wordstatsprocessor.cpp \
+
 
 RESOURCES += qml.qrc
 

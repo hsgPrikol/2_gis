@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 #endif
     QApplication app(argc, argv);
 
-    app.setWindowIcon(QIcon("images/logo.png"));
+    app.setWindowIcon(QIcon("images/лого.png"));
 
     QQmlApplicationEngine engine;
 

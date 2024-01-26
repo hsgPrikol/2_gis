@@ -2,5 +2,15 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>Seporator.qml</file>
+        <file>Colors.js</file>
+        <file>CustomButton.qml</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>images/2gis_icon.jpg</file>
+        <file>images/logo.png</file>
+        <file>images/2gis_icon.png</file>
+        <file>images/2gis.jpg</file>
+        <file>images/лого.png</file>
+        <file>images/logo_2.png</file>
     </qresource>
 </RCC>

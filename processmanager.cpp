@@ -31,8 +31,13 @@ void ProcessManager::setViewManager(QmlViewManager *newViewManager)
 void ProcessManager::startProcessing(const QString &filepath)
 {
     m_process->setFilepath(filepath);
-    QMetaObject::invokeMethod(m_process, "startProcessing", Qt::QueuedConnection);
+//    QMetaObject::invokeMethod(m_process, "startProcessing", Qt::QueuedConnection);
     m_processThread->start(QThread::LowestPriority);
+}
+
+void ProcessManager::progressUpdate(int value)
+{
+    m_viewManager->setProcessValue(value);
 }
 
 void ProcessManager::wordAdded(const QString &word)
@@ -51,6 +56,10 @@ void ProcessManager::initProcessThread()
     m_process->moveToThread(m_processThread);
 
     connect(m_process, &WordStatsProcessor::newWordProcessed, this, &ProcessManager::wordAdded);
+    connect(m_process, &WordStatsProcessor::progressUpdate, this, &ProcessManager::progressUpdate);
+    connect(m_process, &WordStatsProcessor::update, [=](){
+        m_viewManager->histogramModel()->update();
+    });
     connect(m_processThread, &QThread::started, m_process, &WordStatsProcessor::startProcessing);
     connect(m_processThread, &QThread::finished, m_process, &WordStatsProcessor::deleteLater);
 }

@@ -77,10 +77,10 @@ QHash<int, QByteArray> WordStatsModel::roleNames() const
 void WordStatsModel::append(const QString& word, size_t count)
 {
     const size_t index = m_words.size();
-//    beginInsertRows(QModelIndex(), index, index);
+    //    beginInsertRows(QModelIndex(), index, index);
     beginResetModel();
     m_words.append(std::make_shared<WordStats>(word, count));
-//    endInsertRows();
+    //    endInsertRows();
     endResetModel();
 
     //    emit dataChanged(index, index, QVector<int>() << WORD);
@@ -89,12 +89,12 @@ void WordStatsModel::append(const QString& word, size_t count)
 void WordStatsModel::append(const std::shared_ptr<WordStats>& ws)
 {
     const size_t idx = m_words.size() - 1;
-//    auto modelIndex = index(idx);
+    //    auto modelIndex = index(idx);
     beginResetModel();
-//    beginInsertRows(QModelIndex(), idx, idx);
+    //    beginInsertRows(QModelIndex(), idx, idx);
     m_words.append(ws);
-//    endInsertRows();
-//    emit dataChanged(modelIndex, modelIndex, QVector<int>() << WordStatsRole::COUNT);
+    //    endInsertRows();
+    //    emit dataChanged(modelIndex, modelIndex, QVector<int>() << WordStatsRole::COUNT);
     endResetModel();
 }
 
@@ -107,6 +107,12 @@ void WordStatsModel::update(int idx)
 {
     auto modelIndex = index(idx);
     emit dataChanged(modelIndex, modelIndex, QVector<int>() << WordStatsRole::COUNT);
+}
+
+void WordStatsModel::update()
+{
+    beginResetModel();
+    endResetModel();
 }
 
 size_t WordStatsModel::size() const
