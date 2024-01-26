@@ -7,7 +7,7 @@ import QtGraphicalEffects 1.15
 
 import Model.org 1.0
 
-import "Colors.js" as Colors
+import "../js/Colors.js" as Colors
 
 ApplicationWindow {
     id: rootId

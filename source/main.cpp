@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 #endif
     QApplication app(argc, argv);
 
-    app.setWindowIcon(QIcon("images/лого.png"));
+    app.setWindowIcon(QIcon(":/images/images/лого.png"));
 
     QQmlApplicationEngine engine;
 
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("_wsModel", &wsModel);
 
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)

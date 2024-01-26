@@ -1,6 +1,6 @@
 import QtQuick 2.15
 
-import "Colors.js" as Colors
+import "../js/Colors.js" as Colors
 
 Rectangle{
 
