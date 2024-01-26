@@ -1,12 +1,9 @@
-//#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QApplication>
 #include <QQmlContext>
 #include <QIcon>
 
-#include "wordstatsprocessor.h"
-
-//#include <QtCharts>
+#include "processmanager.h"
 
 #define MODEL_ORG "Model.org"
 
@@ -22,10 +19,9 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    qmlRegisterUncreatableType<WordStatsProcessor>(MODEL_ORG, 1, 0, "WordStatsModel", "");
-    qmlRegisterUncreatableType<QmlViewManager>(MODEL_ORG, 1, 0, "ViewManager", "");
+    qmlRegisterUncreatableType<ProcessManager>(MODEL_ORG, 1, 0, "WordStatsModel", "");
 
-    WordStatsProcessor wsModel;
+    ProcessManager wsModel;
 
     engine.rootContext()->setContextProperty("_wsModel", &wsModel);
 

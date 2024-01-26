@@ -1,6 +1,6 @@
 #include "wordstats.h"
 
-WordStats::WordStats(const QString& word, size_t count)
+WordStats::WordStats(const QString& word, int count)
     : m_word(word)
     , m_count(count)
 {
@@ -17,12 +17,12 @@ void WordStats::setWord(const QString &newWord)
     m_word = newWord;
 }
 
-size_t WordStats::count() const
+int WordStats::count() const
 {
     return m_count;
 }
 
-void WordStats::setCount(size_t newCount)
+void WordStats::setCount(int newCount)
 {
     m_count = newCount;
 }

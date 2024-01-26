@@ -4,8 +4,9 @@
 #include <QAbstractListModel>
 #include <QDebug>
 
-#include <set>
 #include <memory>
+#include <unordered_map>
+#include <algorithm>
 
 #include "wordstats.h"
 
@@ -30,11 +31,11 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 
-    void addData(const QString& word, size_t count);
+    void append(const QString& word, size_t count);
 
-    void addData(const std::shared_ptr<WordStats> &ws);
+    void append(const std::shared_ptr<WordStats> &ws);
 
-    void removeLastData();
+    void pop_back();
 
     int maxCount() const;
 
@@ -65,13 +66,7 @@ public:
 private:
     QList<std::shared_ptr<WordStats>> m_words;
 
-//    QList<std::shared_ptr<WordStats>> result;
-
-
-//    std::set<std::shared_ptr<WordStats>> m_wordsPtr;
-
-    int m_maxCount;
-
+    const int SIZE = 15;
 };
 
 #endif // WORDSTATSMODEL_H

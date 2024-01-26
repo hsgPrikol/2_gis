@@ -12,7 +12,7 @@ ApplicationWindow {
     width: 640
     height: 480
 
-    title: "2Gis histogram"
+    title: "2Гистограмм"
 
     visible: true
 
@@ -23,7 +23,8 @@ ApplicationWindow {
 
         onAccepted: {
             var url = fileDialogId.fileUrl;
-            _wsModel.processFile(url);
+//            _wsModel.processFile(url);
+//            _wsModel.startProcessing("/home/ibabushkin/Documents/Project_qt/ttt.txt")
         }
 
         onRejected: {
@@ -38,7 +39,8 @@ ApplicationWindow {
             text: "add"
 
             onClicked: {
-                _wsModel.addObject();
+//                _wsModel.addObject();
+                _wsModel.startProcessing("/home/ibabushkin/Documents/Project_qt/tt.txt")
             }
         }
 
@@ -87,7 +89,7 @@ ApplicationWindow {
     }
 
     ListView{
-        width: 200
+        width: 100
         height: parent.height
         anchors.right: parent.right
 
@@ -157,7 +159,8 @@ ApplicationWindow {
                 visible: model.index < 15
 
                 border.width: 1
-                color: "red"
+//                color: "red"
+                color: Qt.rgba(Math.random(), Math.random(), Math.random())
 
                 Text {
                     height: 30

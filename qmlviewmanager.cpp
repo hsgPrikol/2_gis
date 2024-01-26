@@ -81,7 +81,7 @@ void QmlViewManager::add(const QString& word, int count)
 
     setMaxWordCount(++m_maxWordCount);
 
-    m_histogramModel->addData(word, count);
+    m_histogramModel->append(word, count);
 }
 
 void QmlViewManager::add(const std::shared_ptr<WordStats>& ws)
@@ -96,13 +96,45 @@ void QmlViewManager::add(const std::shared_ptr<WordStats>& ws)
 
     setMaxWordCount(++m_maxWordCount);
 
-    m_histogramModel->addData(ws);
+    m_histogramModel->append(ws);
 
+}
+
+void QmlViewManager::addOrUpdate(const QString &word)
+{
+    std::shared_ptr<WordStats> tmpWs;
+
+    if (m_unData.find(word) != m_unData.end()) {
+        auto tmp = m_unData[word];
+        tmp->setCount(tmp->count() + 1);
+    } else {
+        m_unData[word] = std::make_shared<WordStats>(word);
+    }
+
+    tmpWs = m_unData[word];
+
+    if (find(tmpWs)) {
+
+        sort();
+
+        if (m_histogramModel->size() < 15) {
+            m_histogramModel->append(tmpWs);
+        } else if (std::prev(m_histogramModel->end())->get()->count() < tmpWs->count()) {
+            m_histogramModel->pop_back();
+            m_histogramModel->append(tmpWs);
+        }
+    } else {
+        if (m_maxRepeatedWord < tmpWs->count()) {
+            setMaxRepeatedWord(tmpWs->count());
+        }
+
+        update(indexOf(tmpWs));
+    }
 }
 
 void QmlViewManager::pop_back()
 {
-    m_histogramModel->removeLastData();
+    m_histogramModel->pop_back();
 }
 
 void QmlViewManager::sort()

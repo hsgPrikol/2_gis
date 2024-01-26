@@ -29,15 +29,17 @@ public:
     int processValue() const;
     void setProcessValue(int newProcessValue);
 
-    Q_INVOKABLE void add(const QString &word, int count);
+    void add(const QString &word, int count);
 
-    Q_INVOKABLE void add(const std::shared_ptr<WordStats>& ws);
+    void add(const std::shared_ptr<WordStats>& ws);
+
+    void addOrUpdate(const QString& word);
 
     void pop_back();
 
     void sort();
 
-    Q_INVOKABLE int size() const;
+    int size() const;
 
     bool find(const std::shared_ptr<WordStats>& elem);
 
@@ -57,6 +59,8 @@ private: //fields
     int m_maxWordCount;
 
     int m_maxRepeatedWord;
+
+    std::unordered_map<QString, std::shared_ptr<WordStats>> m_unData;
 
     int m_processValue;
 

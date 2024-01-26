@@ -10,6 +10,7 @@ CONFIG += c++17
 SOURCES += \
         filemanager.cpp \
         main.cpp \
+        processmanager.cpp \
         progressbarprocess.cpp \
         qmlviewmanager.cpp \
         sortfiltermodel.cpp \
@@ -33,6 +34,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     filemanager.h \
+    processmanager.h \
     progressbarprocess.h \
     qmlviewmanager.h \
     sortfiltermodel.h \

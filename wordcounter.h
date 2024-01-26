@@ -4,7 +4,7 @@
 #include <QString>
 #include <QStringList>
 #include <QRegExp>
-#include <QDebug>
+
 
 #include <map>
 
