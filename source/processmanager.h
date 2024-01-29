@@ -20,7 +20,7 @@ public:
     void setViewManager(QmlViewManager *newViewManager);
 
 public slots:
-    void startProcessing(const QString& filepath);
+    void startProcessing(QString filepath);
 
     void progressUpdate(int value);
 

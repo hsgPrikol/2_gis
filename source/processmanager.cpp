@@ -11,8 +11,8 @@ ProcessManager::ProcessManager(QObject *parent)
 
 ProcessManager::~ProcessManager()
 {
-//    m_processThread->quit();
-//    m_processThread->wait();
+    m_processThread->quit();
+    m_processThread->wait();
 }
 
 QmlViewManager *ProcessManager::viewManager() const
@@ -28,10 +28,18 @@ void ProcessManager::setViewManager(QmlViewManager *newViewManager)
     emit viewManagerChanged();
 }
 
-void ProcessManager::startProcessing(const QString &filepath)
+void ProcessManager::startProcessing(QString filepath)
 {
+
+#ifdef Q_OS_WIN
+    filepath.remove("file:///");
+#endif
+
+#ifdef Q_OS_LINUX
+    filepath.remove("file://");
+#endif
+
     m_process->setFilepath(filepath);
-//    QMetaObject::invokeMethod(m_process, "startProcessing", Qt::QueuedConnection);
     m_processThread->start(QThread::LowestPriority);
 }
 

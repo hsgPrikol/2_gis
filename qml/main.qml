@@ -136,10 +136,18 @@ ApplicationWindow {
         nameFilters: ["Text files (*.txt)", "HTML files (*.html *.htm)"]
 
         onAccepted: {
-            var chosenFile = fileDialogId.fileUrl.toString().replace("file://", "");
-            console.log(chosenFile);
-            if (chosenFile !== "") {
-                _wsModel.startProcessing(chosenFile);
+//            var chosenFile = fileDialogId.fileUrl.toString().replace("file://", "");
+//            console.log(chosenFile);
+//            if (chosenFile !== "") {
+//                _wsModel.startProcessing(chosenFile);
+//            } else {
+//                console.log("mistake");
+//            }
+
+//            var chosenFile = fileDialogId.fileUrl.toString().replace("file://", "");
+//            console.log(chosenFile);
+            if (fileDialogId.fileUrl !== "") {
+                _wsModel.startProcessing(fileDialogId.fileUrl);
             } else {
                 console.log("mistake");
             }
