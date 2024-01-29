@@ -2,7 +2,7 @@
 
 WordStatsProcessor::WordStatsProcessor(QObject *parent)
     : QObject{parent}
-    , m_fileManager(std::make_unique<FileManager>(this))
+//    , m_fileManager(std::make_unique<FileManager>(this))
 {
 
 }
@@ -45,12 +45,6 @@ void WordStatsProcessor::startProcessing()
             word = word.toLower();
 
             size_t percentage = static_cast<int>((static_cast<float>(bytes) / fileSize) * 100) * 2;
-            if (bytes > 108490 && bytes < 109100) {
-
-                int a;
-                a =3;
-
-            }
 
             emit progressUpdate(percentage);
             emit newWordProcessed(std::move(normalizedWord));

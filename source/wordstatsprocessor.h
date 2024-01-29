@@ -24,7 +24,7 @@ private: //methods
     QString m_filepath;
 
 private: // fields
-    std::unique_ptr<FileManager> m_fileManager;
+//    std::unique_ptr<FileManager> m_fileManager;
 
 signals:
 

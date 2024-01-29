@@ -64,46 +64,6 @@ ApplicationWindow {
             source: "qrc:/images/images/logo_2.png"
         }
 
-//        RadialGradient {
-//            width: 50
-//            height: width
-//            gradient: Gradient {
-//                GradientStop {
-//                    position: 0.0
-//                    color: "#0c744fff"
-//                }
-//                GradientStop {
-//                    position: 0.5
-//                    color: "#000e09ff"
-//                }
-//                GradientStop {
-//                    position: 1.0
-//                    color: "#000000f0"
-//                }
-//            }
-
-//            gradient: Gradient {
-//                GradientStop {
-//                    position: 0.0
-//                    color: Qt.rgba(12/255, 116/255, 79/255, 1.0)
-//                }
-//                GradientStop {
-//                    position: 0.3
-//                    color: "#ffffffff"
-//                }
-//                GradientStop {
-//                    position: 0.5
-//                    color: Qt.rgba(0/255, 14/255, 9/255, 0.0)
-//                }
-//                GradientStop {
-//                    position: 1.0
-//                    color: Qt.rgba(0/255, 0/255, 0/255, 0.0)
-//                }
-//            }
-//        }
-
-
-
         Rectangle {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 10
@@ -136,16 +96,7 @@ ApplicationWindow {
         nameFilters: ["Text files (*.txt)", "HTML files (*.html *.htm)"]
 
         onAccepted: {
-//            var chosenFile = fileDialogId.fileUrl.toString().replace("file://", "");
-//            console.log(chosenFile);
-//            if (chosenFile !== "") {
-//                _wsModel.startProcessing(chosenFile);
-//            } else {
-//                console.log("mistake");
-//            }
 
-//            var chosenFile = fileDialogId.fileUrl.toString().replace("file://", "");
-//            console.log(chosenFile);
             if (fileDialogId.fileUrl !== "") {
                 _wsModel.startProcessing(fileDialogId.fileUrl);
             } else {
@@ -166,6 +117,7 @@ ApplicationWindow {
         nameFilters: ["CSV Files (*.csv)"]
 
         onAccepted: {
+
             var chosenFile = saveFileDialogId.fileUrl.toString().replace("file:///", "");
             if (chosenFile !== "") {
                 console.log("Selected file path:", chosenFile);
@@ -348,7 +300,7 @@ ApplicationWindow {
                     text: "A-Z"
 
                     onClicked: {
-                        _wsModel.startProcessing("/home/ibabushkin/Documents/Project_qt/t.txt")
+
                     }
                 }
                 CustomButton {
@@ -390,7 +342,7 @@ ApplicationWindow {
                 height: 50
 
                 onClicked: {
-                    _wsModel.startProcessing("/home/ibabushkin/Documents/Project_qt/t.txt")
+
                 }
             }
             CustomButton {
@@ -401,7 +353,7 @@ ApplicationWindow {
                 colorBackgraound: "#17a81a"
 
                 onClicked: {
-                    _wsModel.startProcessing("/home/ibabushkin/Documents/Project_qt/t.txt")
+
                 }
             }
         }
